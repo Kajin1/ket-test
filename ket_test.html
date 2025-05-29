@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>剑桥英语 KET 词汇测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 剑桥官方风格 */
+        :root {
+            --cambridge-blue: #0066A1;
+            --cambridge-light: #A5C8E4;
+            --cambridge-accent: #D4A024;
+            --cambridge-dark: #003C71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f2ff 100%);
+            color: #333;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="3" fill="%23A5C8E4" opacity="0.2"/></svg>');
+        }
+        
+        .cambridge-header {
+            background: linear-gradient(to right, var(--cambridge-dark), var(--cambridge-blue));
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 15px rgba(0, 60, 113, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cambridge-header::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .cambridge-header::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cambridge-logo {
+            font-weight: 700;
+            color: var(--cambridge-accent);
+            display: inline-block;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .test-info {
+            background: white;
+            border-left: 5px solid var(--cambridge-accent);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 102, 161, 0.1);
+            border: 1px solid #e1eef7;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 102, 161, 0.15);
+        }
+        
+        .question-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: var(--cambridge-blue);
+            color: white;
+            text-align: center;
+            line-height: 28px;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .options {
+            margin-top: 15px;
+        }
+        
+        .option {
+            display: block;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 2px solid #e1f0fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background: #f5fbff;
+            border-color: var(--cambridge-light);
+        }
+        
+        input[type="radio"]:checked + .option {
+            background: #e6f3ff;
+            border-color: var(--cambridge-blue);
+            font-weight: 600;
+            color: var(--cambridge-dark);
+        }
+        
+        input[type="radio"] {
+            display: none;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(to right, var(--cambridge-blue), var(--cambridge-dark));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 30px 0;
+            box-shadow: 0 4px 10px rgba(0, 102, 161, 0.3);
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 102, 161, 0.4);
+        }
+        
+        .result-container {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--cambridge-accent);
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--cambridge-blue);
+            margin: 20px 0;
+        }
+        
+        .vocab-range {
+            background: linear-gradient(to right, #e6f3ff, #f0f8ff);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0;
+            border: 2px dashed var(--cambridge-light);
+        }
+        
+        .vocab-range h3 {
+            color: var(--cambridge-dark);
+            margin-top: 0;
+        }
+        
+        .vocab-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cambridge-dark);
+            margin: 10px 0;
+        }
+        
+        .level-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .level-card {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin: 0 5px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid var(--cambridge-light);
+        }
+        
+        .level-card h4 {
+            color: var(--cambridge-blue);
+            margin-top: 0;
+        }
+        
+        .cambridge-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .level-indicator {
+                flex-direction: column;
+            }
+            
+            .level-card {
+                margin: 10px 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cambridge-header">
+        <h1>剑桥英语 KET 词汇测试</h1>
+        <div class="subtitle">Key English Test (A2 Level) 官方风格评估</div>
+        <div class="cambridge-logo">CAMBRIDGE ASSESSMENT ENGLISH</div>
+    </div>
+    
+    <div class="test-info">
+        <p>本测试基于剑桥英语KET考试标准设计，包含20道选择题，全面评估A2级别核心词汇掌握情况。完成后将获得专业词汇量评估和学习建议。</p>
+    </div>
+
+    <!-- 完整20道题目 -->
+    <div class="question">
+        <div class="question-number">1</div>
+        <p>What do you call a place where you can borrow books?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q1" value="a">
+                <span class="option">a) bakery</span>
+            </label>
+            <label>
+                <input type="radio" name="q1" value="b">
+                <span class="option">b) library</span>
+            </label>
+            <label>
+                <input type="radio" name="q1" value="c">
+                <span class="option">c) pharmacy</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">2</div>
+        <p>Which word means the opposite of "expensive"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q2" value="a">
+                <span class="option">a) heavy</span>
+            </label>
+            <label>
+                <input type="radio" name="q2" value="b">
+                <span class="option">b) cheap</span>
+            </label>
+            <label>
+                <input type="radio" name="q2" value="c">
+                <span class="option">c) difficult</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">3</div>
+        <p>What is the past tense of "go"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q3" value="a">
+                <span class="option">a) goed</span>
+            </label>
+            <label>
+                <input type="radio" name="q3" value="b">
+                <span class="option">b) went</span>
+            </label>
+            <label>
+                <input type="radio" name="q3" value="c">
+                <span class="option">c) going</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">4</div>
+        <p>Which animal says "quack"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q4" value="a">
+                <span class="option">a) cat</span>
+            </label>
+            <label>
+                <input type="radio" name="q4" value="b">
+                <span class="option">b) cow</span>
+            </label>
+            <label>
+                <input type="radio" name="q4" value="c">
+                <span class="option">c) duck</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">5</div>
+        <p>What do you use to write on paper?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q5" value="a">
+                <span class="option">a) pencil</span>
+            </label>
+            <label>
+                <input type="radio" name="q5" value="b">
+                <span class="option">b) spoon</span>
+            </label>
+            <label>
+                <input type="radio" name="q5" value="c">
+                <span class="option">c) book</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">6</div>
+        <p>Which is a type of fruit?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q6" value="a">
+                <span class="option">a) carrot</span>
+            </label>
+            <label>
+                <input type="radio" name="q6" value="b">
+                <span class="option">b) banana</span>
+            </label>
+            <label>
+                <input type="radio" name="q6" value="c">
+                <span class="option">c) potato</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">7</div>
+        <p>What do you call a person who cooks food?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q7" value="a">
+                <span class="option">a) teacher</span>
+            </label>
+            <label>
+                <input type="radio" name="q7" value="b">
+                <span class="option">b) doctor</span>
+            </label>
+            <label>
+                <input type="radio" name="q7" value="c">
+                <span class="option">c) cook</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">8</div>
+        <p>Which word means "very big"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q8" value="a">
+                <span class="option">a) huge</span>
+            </label>
+            <label>
+                <input type="radio" name="q8" value="b">
+                <span class="option">b) tiny</span>
+            </label>
+            <label>
+                <input type="radio" name="q8" value="c">
+                <span class="option">c) fast</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">9</div>
+        <p>What is the capital of England?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q9" value="a">
+                <span class="option">a) Paris</span>
+            </label>
+            <label>
+                <input type="radio" name="q9" value="b">
+                <span class="option">b) London</span>
+            </label>
+            <label>
+                <input type="radio" name="q9" value="c">
+                <span class="option">c) Rome</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">10</div>
+        <p>Which one is a month of the year?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q10" value="a">
+                <span class="option">a) Tuesday</span>
+            </label>
+            <label>
+                <input type="radio" name="q10" value="b">
+                <span class="option">b) July</span>
+            </label>
+            <label>
+                <input type="radio" name="q10" value="c">
+                <span class="option">c) Spring</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">11</div>
+        <p>What do you wear on your feet?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q11" value="a">
+                <span class="option">a) hat</span>
+            </label>
+            <label>
+                <input type="radio" name="q11" value="b">
+                <span class="option">b) gloves</span>
+            </label>
+            <label>
+                <input type="radio" name="q11" value="c">
+                <span class="option">c) shoes</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">12</div>
+        <p>Which word means "not able to see"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q12" value="a">
+                <span class="option">a) deaf</span>
+            </label>
+            <label>
+                <input type="radio" name="q12" value="b">
+                <span class="option">b) blind</span>
+            </label>
+            <label>
+                <input type="radio" name="q12" value="c">
+                <span class="option">c) mute</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">13</div>
+        <p>What do you call the sister of your father?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q13" value="a">
+                <span class="option">a) niece</span>
+            </label>
+            <label>
+                <input type="radio" name="q13" value="b">
+                <span class="option">b) aunt</span>
+            </label>
+            <label>
+                <input type="radio" name="q13" value="c">
+                <span class="option">c) cousin</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">14</div>
+        <p>Which is a color?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q14" value="a">
+                <span class="option">a) square</span>
+            </label>
+            <label>
+                <input type="radio" name="q14" value="b">
+                <span class="option">b) purple</span>
+            </label>
+            <label>
+                <input type="radio" name="q14" value="c">
+                <span class="option">c) heavy</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">15</div>
+        <p>What is the opposite of "full"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q15" value="a">
+                <span class="option">a) empty</span>
+            </label>
+            <label>
+                <input type="radio" name="q15" value="b">
+                <span class="option">b) big</span>
+            </label>
+            <label>
+                <input type="radio" name="q15" value="c">
+                <span class="option">c) tall</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">16</div>
+        <p>Which animal lives in the ocean?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q16" value="a">
+                <span class="option">a) elephant</span>
+            </label>
+            <label>
+                <input type="radio" name="q16" value="b">
+                <span class="option">b) dolphin</span>
+            </label>
+            <label>
+                <input type="radio" name="q16" value="c">
+                <span class="option">c) giraffe</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">17</div>
+        <p>What do you do with a book?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q17" value="a">
+                <span class="option">a) eat it</span>
+            </label>
+            <label>
+                <input type="radio" name="q17" value="b">
+                <span class="option">b) read it</span>
+            </label>
+            <label>
+                <input type="radio" name="q17" value="c">
+                <span class="option">c) wash it</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">18</div>
+        <p>Which is a vegetable?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q18" value="a">
+                <span class="option">a) apple</span>
+            </label>
+            <label>
+                <input type="radio" name="q18" value="b">
+                <span class="option">b) tomato</span>
+            </label>
+            <label>
+                <input type="radio" name="q18" value="c">
+                <span class="option">c) chicken</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">19</div>
+        <p>What is the past tense of "eat"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q19" value="a">
+                <span class="option">a) eated</span>
+            </label>
+            <label>
+                <input type="radio" name="q19" value="b">
+                <span class="option">b) ate</span>
+            </label>
+            <label>
+                <input type="radio" name="q19" value="c">
+                <span class="option">c) eaten</span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="question">
+        <div class="question-number">20</div>
+        <p>Which word means "not correct"?</p>
+        <div class="options">
+            <label>
+                <input type="radio" name="q20" value="a">
+                <span class="option">a) right</span>
+            </label>
+            <label>
+                <input type="radio" name="q20" value="b">
+                <span class="option">b) wrong</span>
+            </label>
+            <label>
+                <input type="radio" name="q20" value="c">
+                <span class="option">c) true</span>
+            </label>
+        </div>
+    </div>
+    
+    <button class="submit-btn" onclick="checkAnswers()">提交测试 · 获取评估报告</button>
+    
+    <div id="result" class="result-container">
+        <h2 style="text-align: center; color: var(--cambridge-dark);">测试结果</h2>
+        <div class="score-display" id="scoreDisplay">0/20</div>
+        
+        <div class="vocab-range">
+            <h3>词汇量评估</h3>
+            <div class="vocab-number" id="vocabNumber">0-500词</div>
+            <p id="vocabDetail">根据您的得分评估的词汇量范围</p>
+        </div>
+        
+        <div class="level-indicator">
+            <div class="level-card">
+                <h4>CEFR 级别</h4>
+                <p id="cefrLevel">A0</p>
+            </div>
+            <div class="level-card">
+                <h4>剑桥考试水平</h4>
+                <p id="cambridgeLevel">Pre-A1</p>
+            </div>
+            <div class="level-card">
+                <h4>建议学习目标</h4>
+                <p id="adviceTarget">基础词汇</p>
+            </div>
+        </div>
+        
+        <h3 style="color: var(--cambridge-blue);">学习建议</h3>
+        <p id="studyAdvice">完成测试后查看个性化学习建议</p>
+        
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 25px;">
+            <h3 style="color: var(--cambridge-dark);">答案解析</h3>
+            <div id="answerFeedback"></div>
+        </div>
+    </div>
+    
+    <div class="cambridge-footer">
+        <p>本测试基于剑桥英语KET考试标准设计 | 仅用于学习评估参考</p>
+        <p>© 2023 剑桥英语学习助手 | 非官方测试</p>
+    </div>
+
+    <script>
+        function checkAnswers() {
+            // 正确答案
+            const answers = {
+                q1: "b", q2: "b", q3: "b", q4: "c", q5: "a",
+                q6: "b", q7: "c", q8: "a", q9: "b", q10: "b",
+                q11: "c", q12: "b", q13: "b", q14: "b", q15: "a",
+                q16: "b", q17: "b", q18: "b", q19: "b", q20: "b"
+            };
+            
+            let score = 0;
+            let feedback = "<ol>";
+            
+            // 检查每题答案
+            for (let i = 1; i <= 20; i++) {
+                const qName = "q" + i;
+                const selected = document.querySelector(`input[name="${qName}"]:checked`);
+                
+                if (selected) {
+                    if (selected.value === answers[qName]) {
+                        score++;
+                        feedback += `<li>第${i}题：<span style="color: #4CAF50; font-weight: 500;">✓ 正确</span>`;
+                    } else {
+                        feedback += `<li>第${i}题：<span style="color: #F44336; font-weight: 500;">✗ 错误</span> (正确答案：${answers[qName].toUpperCase()})`;
+                    }
+                } else {
+                    feedback += `<li>第${i}题：<span style="color: #9E9E9E;">未作答</span>`;
+                }
+            }
+            
+            feedback += "</ol>";
+            
+            // 更新结果显示
+            document.getElementById('scoreDisplay').textContent = `${score}/20`;
+            document.getElementById('answerFeedback').innerHTML = feedback;
+            
+            // 计算词汇量范围
+            const vocabData = calculateVocab(score);
+            document.getElementById('vocabNumber').textContent = vocabData.vocabRange;
+            document.getElementById('vocabDetail').textContent = vocabData.vocabDetail;
+            document.getElementById('cefrLevel').textContent = vocabData.cefrLevel;
+            document.getElementById('cambridgeLevel').textContent = vocabData.cambridgeLevel;
+            document.getElementById('adviceTarget').textContent = vocabData.adviceTarget;
+            document.getElementById('studyAdvice').innerHTML = vocabData.advice;
+            
+            // 显示结果
+            document.getElementById('result').style.display = 'block';
+            
+            // 滚动到结果位置
+            document.getElementById('result').scrollIntoView({behavior: "smooth"});
+        }
+        
+        // 词汇量计算与评估
+        function calculateVocab(score) {
+            if (score >= 18) {
+                return {
+                    vocabRange: "1700-1900词",
+                    vocabDetail: "达到KET优秀水平（140分+），词汇量丰富",
+                    cefrLevel: "A2+",
+                    cambridgeLevel: "KET卓越",
+                    adviceTarget: "PET备考",
+                    advice: "🎯 <strong>学习重点：</strong>扩展学术词汇和短语动词<br>📚 <strong>推荐资源：</strong>剑桥PET官方词汇表<br>✅ <strong>每日任务：</strong>学习5个新词并用它们写句子"
+                };
+            } else if (score >= 15) {
+                return {
+                    vocabRange: "1300-1500词",
+                    vocabDetail: "达到KET通过标准（120-139分）",
+                    cefrLevel: "A2",
+                    cambridgeLevel: "KET通过",
+                    adviceTarget: "词汇强化",
+                    advice: "🎯 <strong>学习重点：</strong>动词短语和形容词比较级<br>📚 <strong>推荐资源：</strong>KET核心800词<br>✅ <strong>每日任务：</strong>记忆10个新词并完成填空练习"
+                };
+            } else if (score >= 12) {
+                return {
+                    vocabRange: "900-1100词",
+                    vocabDetail: "接近KET基础要求（100-119分）",
+                    cefrLevel: "A1+",
+                    cambridgeLevel: "Pre-A2",
+                    adviceTarget: "基础巩固",
+                    advice: "🎯 <strong>学习重点：</strong>日常动词过去式和基础名词<br>📚 <strong>推荐资源：</strong>剑桥Starters/Movers词汇表<br>✅ <strong>每日任务：</strong>学习15个基础词汇并用图片记忆"
+                };
+            } else {
+                return {
+                    vocabRange: "500-700词",
+                    vocabDetail: "需要加强基础词汇积累（低于100分）",
+                    cefrLevel: "A1",
+                    cambridgeLevel: "Movers",
+                    adviceTarget: "词汇积累",
+                    advice: "🎯 <strong>学习重点：</strong>最常用300基础单词<br>📚 <strong>推荐资源：</strong>剑桥英语图解词典<br>✅ <strong>每日任务：</strong>学习10个新名词+5个动词"
+                };
+            }
+        }
+    </script>
+</body>
+</html>
